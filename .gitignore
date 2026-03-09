@@ -1,0 +1,22 @@
+# Data files (may contain sensitive exports)
+data/*.csv
+data/*.xlsx
+data/*.json
+data/*.tsv
+
+# Generated reports (regenerate from data)
+reports/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+*.swp
+*.swo
