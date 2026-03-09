@@ -4,7 +4,9 @@ A centralized workspace for digital strategy analysis, SEO/AEO optimization, web
 
 ## Quick Start
 
-Open this repo in Cursor to automatically activate all 9 skills. They'll appear in the agent's available skills and trigger contextually based on your requests.
+**Cursor users:** Open this repo in Cursor. The `.cursor/rules/use-skills.mdc` rule will automatically direct the agent to reference the skills in `skills/`.
+
+**Claude Code users:** The `CLAUDE.md` at the repo root provides the same guidance, pointing Claude to the `skills/` directory.
 
 ## Skills
 
@@ -23,7 +25,18 @@ Open this repo in Cursor to automatically activate all 9 skills. They'll appear 
 ## Directory Structure
 
 ```
-├── .cursor/skills/       # Cursor agent skills (auto-discovered)
+├── skills/               # Shared skills (Cursor + Claude Code)
+│   ├── digital-strategy-analysis/
+│   ├── seo-aeo-analysis/
+│   ├── web-analytics-analysis/
+│   ├── web-design-review/
+│   ├── ui-ux-research/
+│   ├── web-development/
+│   ├── executive-communication/
+│   ├── strategic-project-management/
+│   └── technical-project-management/
+├── .cursor/rules/        # Cursor rule pointing to skills/
+├── CLAUDE.md             # Claude Code instructions pointing to skills/
 ├── templates/            # Reusable deliverable templates
 │   ├── qbr/              # Quarterly business review
 │   ├── initiative-brief/ # Initiative one-pagers
@@ -47,7 +60,7 @@ Open this repo in Cursor to automatically activate all 9 skills. They'll appear 
 
 ## Usage
 
-Drop data exports into `data/`, ask Cursor to analyze them, and the relevant skill will activate. Generated reports land in `reports/`. Track active initiatives in `projects/`.
+Drop data exports into `data/`, ask Cursor or Claude Code to analyze them, and the relevant skill will be referenced. Generated reports land in `reports/`. Track active initiatives in `projects/`.
 
 ### Example Prompts
 

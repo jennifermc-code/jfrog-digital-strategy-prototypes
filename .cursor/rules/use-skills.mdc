@@ -1,0 +1,26 @@
+---
+description: Reference the skills/ directory at the repo root for domain-specific workflows, templates, and analysis frameworks
+alwaysApply: true
+---
+
+# Digital Strategy Skills
+
+This repo contains specialized skills in the `skills/` directory at the project root. Each skill has a `SKILL.md` with instructions and may include supporting reference files.
+
+Before starting any task, check if a relevant skill exists:
+
+| Skill | When to Use |
+|-------|------------|
+| `skills/digital-strategy-analysis/` | Initiative evaluation, RICE scoring, competitive analysis, roadmap prioritization |
+| `skills/seo-aeo-analysis/` | SEO audits, BrightEdge data, keyword gaps, AEO, team SEO recommendations |
+| `skills/web-analytics-analysis/` | GA4 analysis, Profound data, conversion funnels, team report synthesis |
+| `skills/web-design-review/` | Design critique, accessibility/WCAG audits, brand consistency |
+| `skills/ui-ux-research/` | Heuristic evaluation, user journeys, usability findings, persona alignment |
+| `skills/web-development/` | Tracking/tagging specs, performance/CWV, component standards |
+| `skills/executive-communication/` | QBRs, executive summaries, stakeholder presentations |
+| `skills/strategic-project-management/` | Multi-year roadmaps, initiative scoring, status dashboards |
+| `skills/technical-project-management/` | Technical implementation plans, migrations, go-live checklists, risk registers |
+
+When a task matches a skill, read its `SKILL.md` first and follow the frameworks, templates, and workflows defined there. Also check for supporting reference files linked within each SKILL.md.
+
+Templates for deliverables are in `templates/`. Utility scripts are in `scripts/`.
