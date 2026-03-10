@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JFrog AI | Secure the Agentic Software Supply Chain</title>
+<meta name="description" content="The JFrog Platform secures your agentic software supply chain with native trust at the binary level. Govern AI models, agents, and artifacts automatically.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#40BE46;--green-dark:#2d8a32;--green-light:#e8f8e9;--green-bg:rgba(64,190,70,0.04);
+  --bg:#ffffff;--bg-soft:#f8f9fb;--bg-muted:#f1f3f6;
+  --card-bg:#ffffff;--card-border:#e5e8ee;--card-hover:#f8f9fb;
+  --text:#0f172a;--text-secondary:#475569;--text-dim:#94a3b8;
+  --accent:#1E83F2;--accent-light:#e9f2ff;
+  --danger:#ef4444;--warning:#f59e0b;--purple:#7c3aed;--purple-light:#f3f0ff;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --max:1140px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.06),0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.04);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.6;overflow-x:hidden}
+.w{max-width:var(--max);margin:0 auto;padding:0 28px}
+.skip-link{position:absolute;top:-50px;left:0;background:var(--green);color:#fff;padding:10px 20px;z-index:200;font-size:14px;font-weight:600;text-decoration:none;border-radius:0 0 8px 0;transition:top .2s}
+.skip-link:focus{top:0}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;background:rgba(255,255,255,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--card-border)}
+nav .w{display:flex;align-items:center;justify-content:space-between}
+.logo svg{height:28px;width:auto;display:block}
+.nav-r{display:flex;align-items:center;gap:28px}
+.nav-r a{color:var(--text-secondary);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 24px;border-radius:10px;font-family:var(--font);font-size:14px;font-weight:600;text-decoration:none;transition:all .2s;cursor:pointer;border:none}
+.btn-g{background:var(--green);color:#fff;box-shadow:0 2px 8px rgba(64,190,70,0.25)}
+.btn-g:hover{background:var(--green-dark);box-shadow:0 4px 16px rgba(64,190,70,0.3);transform:translateY(-1px)}
+.btn-o{background:var(--bg);color:var(--text);border:1.5px solid var(--card-border)}
+.btn-o:hover{border-color:var(--text-dim);background:var(--bg-soft)}
+.btn-lg{padding:14px 32px;font-size:15px;border-radius:12px}
+.btn-sm{padding:8px 20px;font-size:13px;border-radius:8px}
+
+.stag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:12px}
+.sh{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;color:var(--text)}
+.ss{font-size:16px;color:var(--text-secondary);max-width:560px;line-height:1.7}
+
+/* HERO */
+.hero{padding:160px 0 80px;position:relative;background:linear-gradient(180deg,#f8faf8 0%,var(--bg) 100%)}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-copy .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;border-radius:100px;font-size:12px;font-weight:600;color:var(--green);margin-bottom:24px;background:var(--green-light);border:1px solid rgba(64,190,70,0.15)}
+.hero h1{font-size:clamp(36px,5vw,56px);font-weight:900;line-height:1.08;letter-spacing:-.04em;margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero .hero-desc{font-size:17px;color:var(--text-secondary);line-height:1.7;margin-bottom:32px;max-width:480px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-visual{position:relative}
+.hero-diagram{width:100%;border-radius:20px;background:var(--bg-soft);border:1px solid var(--card-border);padding:32px;box-shadow:var(--shadow-lg)}
+.diagram-flow{display:flex;flex-direction:column;gap:10px}
+.diagram-row{display:flex;align-items:center;gap:8px;padding:14px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--card-border);transition:all .2s;font-size:13px;font-weight:600}
+.diagram-row:hover{border-color:var(--green);box-shadow:var(--shadow-sm)}
+.diagram-row .dot-g{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+.diagram-row .dot-r{width:8px;height:8px;border-radius:50%;background:var(--danger);flex-shrink:0}
+.diagram-row .dot-b{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.diagram-row .label{flex:1;color:var(--text-secondary);font-weight:500}
+.diagram-row .badge{font-size:10px;padding:3px 8px;border-radius:6px;font-weight:600}
+.badge-green{background:var(--green-light);color:var(--green-dark)}
+.badge-red{background:#fef2f2;color:var(--danger)}
+.badge-blue{background:var(--accent-light);color:var(--accent)}
+
+/* STATS */
+.stats-strip{padding:48px 0;border-bottom:1px solid var(--card-border)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;text-align:center}
+.stat-val{font-size:clamp(32px,4vw,48px);font-weight:900;line-height:1;margin-bottom:4px;color:var(--green)}
+.stat-lbl{font-size:13px;color:var(--text-secondary);font-weight:500}
+
+/* CHALLENGE SECTION */
+.challenge{padding:80px 0;background:var(--bg-soft)}
+.challenge-header{text-align:center;margin-bottom:48px}
+.challenge-header .ss{margin:0 auto}
+.risk-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.risk-card{padding:24px 18px;border-radius:16px;background:var(--card-bg);border:1px solid var(--card-border);text-align:center;transition:all .25s;box-shadow:var(--shadow-sm)}
+.risk-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--danger)}
+.risk-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;background:rgba(239,68,68,0.06);color:var(--danger)}
+.risk-card h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.risk-card .risk-label{font-size:12px;color:var(--danger);font-weight:600;margin-bottom:8px}
+.risk-card p{font-size:12px;color:var(--text-secondary);line-height:1.5}
+
+/* RULES */
+.rules{padding:80px 0}
+.rules-header{text-align:center;margin-bottom:48px}
+.rules-header .ss{margin:0 auto}
+.rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.rule-card{padding:32px 24px;border-radius:16px;border:1px solid var(--card-border);background:var(--card-bg);transition:all .25s;box-shadow:var(--shadow-sm)}
+.rule-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.rule-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:var(--green-light);color:var(--green);font-size:14px;font-weight:800;margin-bottom:16px}
+.rule-card h3{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+.rule-card p{font-size:14px;color:var(--text-secondary);line-height:1.65}
+
+/* SOLUTION BANNER */
+.solution-banner{padding:80px 0;background:linear-gradient(135deg,#0a1628 0%,#0e1f3d 50%,#0a1628 100%);color:#fff;position:relative;overflow:hidden}
+.solution-banner::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(64,190,70,0.15),transparent 70%);pointer-events:none}
+.solution-banner .stag{color:rgba(64,190,70,0.8)}
+.solution-banner .sh{color:#fff}
+.solution-banner .ss{color:rgba(255,255,255,0.6)}
+.solution-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.sol-features{display:flex;flex-direction:column;gap:16px}
+.sol-feature{display:flex;gap:14px;align-items:flex-start}
+.sol-check{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(64,190,70,0.15);color:var(--green);flex-shrink:0;margin-top:2px}
+.sol-feature h4{font-size:14px;font-weight:700;margin-bottom:2px;color:#fff}
+.sol-feature p{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5}
+
+/* PORTFOLIO */
+.portfolio{padding:80px 0;background:var(--bg-soft)}
+.portfolio-header{text-align:center;margin-bottom:12px}
+.portfolio-header .ss{margin:0 auto}
+
+.cat-section{margin-bottom:48px}
+.cat-section:last-child{margin-bottom:0}
+.cat-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--card-border)}
+.cat-label.govern{color:var(--green);border-color:var(--green)}
+.cat-label.ship{color:var(--accent);border-color:var(--accent)}
+.cat-label.secure{color:var(--purple);border-color:var(--purple)}
+
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.prod-card{padding:28px;border-radius:16px;background:var(--card-bg);border:1px solid var(--card-border);transition:all .25s;box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
+.prod-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.prod-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.prod-icon.green{background:var(--green-light);color:var(--green-dark)}
+.prod-icon.blue{background:var(--accent-light);color:var(--accent)}
+.prod-icon.purple{background:var(--purple-light);color:var(--purple)}
+.prod-card h3{font-size:16px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+.prod-card p{font-size:13px;color:var(--text-secondary);line-height:1.65;margin-bottom:16px;flex:1}
+.prod-card .plink{font-size:13px;font-weight:600;color:var(--green);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.prod-card .plink:hover{text-decoration:underline}
+
+/* QUOTE STRIP */
+.quote-strip{padding:64px 0;text-align:center;background:var(--bg);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border)}
+.quote-strip blockquote{font-size:clamp(20px,3vw,30px);font-weight:700;letter-spacing:-.02em;line-height:1.3;max-width:680px;margin:0 auto 16px;color:var(--text)}
+.quote-strip blockquote em{font-style:normal;color:var(--danger)}
+.quote-strip .qa{font-size:13px;color:var(--text-dim);font-weight:500}
+
+/* TESTIMONIALS */
+.testimonials{padding:80px 0}
+.testimonials-header{text-align:center;margin-bottom:48px}
+.testimonials-header .ss{margin:0 auto}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.tcard{padding:28px;border-radius:16px;background:var(--card-bg);border:1px solid var(--card-border);box-shadow:var(--shadow-sm)}
+.tcard .qt{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px;font-style:italic}
+.tcard .ta{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--card-border)}
+.tcard .av{width:36px;height:36px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--green-dark)}
+.tcard .nm{font-weight:700;font-size:13px}.tcard .rl{font-size:12px;color:var(--text-secondary)}.tcard .co{font-size:12px;color:var(--green);font-weight:600}
+
+/* FAQ */
+.faq{padding:80px 0;background:var(--bg-soft)}
+.faq-header{text-align:center;margin-bottom:48px}
+.faq-header .ss{margin:0 auto}
+.faq-list{max-width:740px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.faq-item{border-radius:12px;background:var(--card-bg);border:1px solid var(--card-border);overflow:hidden;box-shadow:var(--shadow-sm)}
+.faq-q{width:100%;padding:18px 22px;background:none;border:none;color:var(--text);font-family:var(--font);font-size:15px;font-weight:600;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.faq-q::after{content:'+';font-size:20px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:400px}
+.faq-a-inner{padding:0 22px 18px;font-size:14px;color:var(--text-secondary);line-height:1.75}
+
+/* CTA */
+.final{padding:100px 0;text-align:center;background:linear-gradient(180deg,var(--bg) 0%,#f0f9f0 100%)}
+.final h2{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.final p{font-size:16px;color:var(--text-secondary);max-width:460px;margin:0 auto 36px;line-height:1.7}
+.final .ctas{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+
+footer{padding:32px 0;text-align:center;border-top:1px solid var(--card-border)}
+footer p{font-size:12px;color:var(--text-dim)}
+footer a{color:var(--text-dim);text-decoration:none}
+footer a:hover{color:var(--text-secondary)}
+
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .solution-inner{grid-template-columns:1fr}
+  .risk-cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .nav-r a:not(.btn){display:none}
+  .hero{padding:140px 0 60px}
+  .stats-row{grid-template-columns:1fr;gap:24px}
+  .rules-grid{grid-template-columns:1fr}
+  .risk-cards{grid-template-columns:1fr}
+  .tgrid{grid-template-columns:1fr}
+}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.v{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav aria-label="Main navigation"><div class="w">
+  <a href="#" class="logo" aria-label="JFrog home"><svg width="74" height="73" viewBox="0 0 74 73" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M71.3235 50.2794L69.5065 47.3175C68.4997 48.2929 67.2673 48.8502 66.0656 48.8502C65.5139 48.8502 65.2228 48.7813 64.0212 48.4678C62.8208 48.1182 61.9761 48.0138 61.0358 48.0138C56.7832 48.0138 54.0249 50.3838 54.0249 54.043C54.0249 56.6909 55.1937 58.3291 57.5956 58.9912C56.6218 59.2354 55.5503 59.7583 55.0637 60.3512C54.7066 60.7692 54.5449 61.3257 54.5449 61.9875C54.5449 62.5466 54.6748 63.0339 54.8688 63.452C55.0955 63.8353 55.4204 64.1491 55.8104 64.3226C56.5883 64.6364 57.8546 64.8453 59.8019 64.8809C60.8086 64.8809 61.4252 64.9158 61.6523 64.9158C62.8535 64.9856 63.4696 65.1936 63.9246 65.4382C64.3785 65.7173 64.7031 66.3447 64.7031 67.041C64.7031 67.7383 64.2812 68.4352 63.6647 68.8536C63.0807 69.2717 62.1389 69.4463 60.9057 69.4463C58.893 69.4463 57.7897 68.6792 57.7897 67.2501C57.7897 66.6227 57.8546 66.4829 57.9844 66.1H53.96C53.798 66.448 53.5713 66.936 53.5713 67.9125C53.5713 69.1325 54.0249 70.1775 54.9338 71.0837C56.4273 72.5826 58.8614 73 61.2305 73C63.8263 73 66.3264 72.3735 67.7862 70.6997C68.6944 69.6543 69.1164 68.5045 69.1164 67.0065C69.1164 65.4036 68.6627 64.1835 67.6891 63.2082C66.5195 62.0572 65.1901 61.639 62.6586 61.6046L60.321 61.5701C59.8671 61.5701 59.608 61.3966 59.608 61.1521C59.608 60.6639 60.2235 60.2454 61.3273 59.6885C61.6523 59.723 61.782 59.723 61.9761 59.723C65.5139 59.723 68.1108 57.4929 68.1108 54.4266C68.1108 53.2412 67.7862 52.3359 67.1363 51.4996C67.6892 51.5685 67.8509 51.6039 68.273 51.6039C69.4733 51.6039 70.382 51.2203 71.3235 50.2794ZM74 32.9837C74 30.9797 72.7887 29.1231 70.7287 27.5979C70.9146 28.2103 71.0189 28.8328 71.0189 29.4676C71.0189 35.2061 63.164 40.1161 52.028 42.1491C53.2875 42.2939 54.5941 42.3731 55.9377 42.3731C65.9135 42.3731 74 38.1691 74 32.9837ZM67.5807 29.8624C67.5807 35.3696 55.5047 39.8334 40.6079 39.8334C25.7117 39.8334 13.6366 35.3696 13.6366 29.8624C13.6366 28.1278 14.8348 26.4974 16.9417 25.0775C16.6159 25.6864 16.4432 26.3164 16.4432 26.9619C16.4432 32.0492 27.0644 36.1732 40.1671 36.1732C53.2701 36.1732 63.8923 32.0492 63.8923 26.9619C63.8923 26 63.5096 25.0711 62.804 24.1982C65.8129 25.8075 67.5807 27.7585 67.5807 29.8624ZM16.6166 21.0472C11.1757 22.4033 7.47979 25.0591 7.47979 28.1131C7.47979 30.0037 8.8974 31.7396 11.2646 33.111C10.5536 31.9505 10.1666 30.7295 10.1666 29.4676C10.1666 26.2911 12.5785 23.3697 16.6166 21.0472ZM69.8231 12.0934C69.3227 11.479 68.6371 11.481 68.0964 11.9806C67.5741 12.6868 67.5592 13.1893 67.9298 13.5794C68.3252 13.9965 69.1451 14.356 69.7353 13.8781C70.3258 13.3982 70.3237 12.7076 69.8231 12.0934ZM62.9695 14.3829C64.6579 11.9811 67.8881 16.2283 64.2266 16.8195C62.7615 17.0562 60.2874 18.691 59.2258 21.2715C57.7266 25.0902 58.3754 27.9167 55.7981 29.6166C50.3021 33.2389 33.3699 34.6058 26.079 29.9589C20.3637 26.3166 22.3248 20.5419 5.97699 7.81541C3.83914 6.15214 6.37108 4.3862 7.97238 5.51648C9.5735 6.64805 8.10792 6.94847 11.3374 10.2452C17.8607 16.9013 17.795 10.9173 18.8252 13.1807C20.9914 17.9405 25.7701 22.7342 25.7701 22.7342C30.5557 25.9118 34.3775 26.6063 41.4368 21.734C45.9136 18.6443 44.0823 26.6482 55.0614 20.8798C59.0653 18.7755 58.8989 20.1706 62.9695 14.3829ZM15.3326 8.2769C15.056 7.87971 14.2336 7.69692 13.6835 8.26154C13.1343 8.82611 13.4045 9.38433 13.722 9.71984C14.1777 10.2004 14.9499 10.1609 15.4092 9.89978C15.8706 9.63933 15.7736 8.91037 15.3326 8.2769ZM3.98286 3.8589C4.34144 3.45734 4.79427 2.69766 4.01642 1.24353C3.44872 0.179062 1.5714-0.255833 0.908835 0.150092C0.248406 0.557382-0.559567 2.12915 0.54678 2.82079C1.97237 3.7132 2.90683 5.06182 3.98286 3.8589ZM71.6671 1.88402C71.165 1.13997 70.1053 1.27468 69.0564 2.05125C68.0069 2.82691 68.2054 4.30171 68.5524 4.6451C69.1609 5.24897 70.7832 4.84129 71.1611 4.40878C72.1347 3.29803 72.1687 2.62791 71.6671 1.88402ZM65.6279 6.60727C67.1302 5.88467 69.4929 8.23343 66.0736 9.99656C61.1868 12.5178 60.6688 15.6458 57.5815 17.6347C52.3894 20.9799 53.978 17.7698 45.6259 16.5549C42.4095 16.0868 41.3748 19.7471 38.8637 18.6893C33.075 16.2503 29.0318 16.7172 25.2824 19.8281C23.9252 19.2174 22.505 16.8599 21.9485 15.9146C23.4685 14.3959 22.8548 11.8577 21.9962 10.4659C21.139 9.07409 20.1002 9.46906 18.9601 8.18847C17.8189 6.90964 19.3901 3.57166 20.8514 6.13592C26.3261 15.7443 29.9205 11.7476 34.3925 11.1744C38.6843 10.6248 42.4781 13.0093 43.6412 6.25507C43.8325 5.15111 44.8868 4.88691 44.9943 6.71258C45.1015 8.53954 45.7735 12.988 48.1333 13.5621C50.4925 14.1354 52.3657 12.9984 52.9182 12.3673C53.4708 11.7362 53.7601 11.8279 54.0025 13.394C54.2461 14.9614 54.8443 17.1258 58.1573 14.7147C64.9333 9.78285 62.9944 7.87468 65.6279 6.60727ZM45.488 2.09382C45.51 1.30451 45.1585 0.809726 44.3952 0.837565C43.6322 0.865871 43.3586 1.25757 43.3834 2.01943C43.5737 3.46152 43.8114 3.42705 44.3176 3.56024C44.8238 3.69366 45.4661 2.88244 45.488 2.09382ZM18.3229 3.44923C18.6553 3.02179 18.6871 2.45916 18.2461 1.82503C17.9699 1.42826 16.6775 1.15619 16.1289 1.72057C15.5787 2.28558 16.0792 3.17295 16.5073 3.30747C17.3 3.55653 17.6522 4.31006 18.3229 3.44923ZM63.6324 54.0774C63.6324 55.7157 62.6906 56.6211 60.9706 56.6211C59.445 56.6211 58.4064 55.8902 58.4064 54.0774C58.4064 52.4048 59.3479 51.4291 61.0033 51.4291C62.6586 51.4291 63.6324 52.4048 63.6324 54.0774ZM51.169 64.0793C52.5985 62.3361 53.2462 60.2454 53.2462 57.1791C53.2462 54.2866 52.6623 52.3358 51.3321 50.662C49.9035 48.8502 48.0543 47.9795 45.6842 47.9795C41.2059 47.9795 38.2199 51.7072 38.2199 57.3191C38.2199 62.929 41.173 66.5535 45.6842 66.5535C48.2482 66.5535 49.9035 65.6129 51.169 64.0793ZM48.5082 57.1446C48.5082 61.3616 47.6975 63.1726 45.8152 63.1726C44.9704 63.1726 43.9977 62.6856 43.6076 61.7101C43.251 60.8025 43.055 59.2691 43.055 57.214C43.055 55.4366 43.2179 54.1824 43.51 53.2412C43.8666 52.1263 44.7104 51.4291 45.7491 51.4291C46.5279 51.4291 47.2093 51.7776 47.6316 52.3703C48.2159 53.1712 48.5082 54.7393 48.5082 57.1446ZM7.11663 69.3752L9.22478 71.8844C11.2701 71.0481 13.8341 69.1674 14.4829 66.2055C14.71 65.229 14.8068 64.6017 14.8068 61.4643V42.0753H10.1994V61.9875C10.1994 64.6017 10.1022 65.5771 9.7447 66.448C9.32305 67.4242 8.28341 68.6087 7.11663 69.3752ZM17.7636 42.0202H17.2903V66.17H21.8338V55.4708H27.5785V51.4996H21.8338V45.9575H29.0058L29.2842 43.849C24.9745 43.5128 21.0579 42.8054 17.7636 42.0202ZM32.8684 47.9095C33.2582 48.6422 33.4843 49.4431 33.5499 50.454C34.1671 49.5476 35.2057 48.6066 36.0165 48.1875C36.3744 48.0137 36.9578 47.9095 37.4448 47.9095C38.0936 47.9095 38.3855 47.9795 39.067 48.2929L37.8664 52.4048C37.4448 52.1614 37.0879 52.0565 36.6011 52.0565C35.6273 52.0565 34.7509 52.5447 33.9393 53.5548V66.17H29.5907V54.251C29.5907 51.8465 29.3308 50.0347 28.974 49.0251L32.8684 47.9095Z" fill="#40BE46"/></svg></a>
+  <div class="nav-r">
+    <a href="#challenge">Challenge</a><a href="#solution">Platform</a><a href="#portfolio">Products</a><a href="#faq">FAQ</a>
+    <a href="#" class="btn btn-g btn-sm">Book a Demo</a>
+  </div>
+</div></nav>
+
+<div id="main">
+
+<!-- HERO -->
+<section class="hero">
+<div class="w">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-eyebrow">JFrog AI</div>
+      <h1>Secure the <em>Agentic</em> Software Supply Chain</h1>
+      <p class="hero-desc">Secure and govern every artifact your developers and AI agents create, consume, and ship — with trust enforced automatically at the binary level.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-g btn-lg">Take a Tour</a>
+        <a href="#" class="btn btn-o btn-lg">Book a Demo</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-diagram">
+        <div class="diagram-flow">
+          <div class="diagram-row"><span class="dot-r"></span><span class="label">Unvetted model pulled from Hugging Face</span><span class="badge badge-red">Blocked</span></div>
+          <div class="diagram-row"><span class="dot-g"></span><span class="label">Verified NIM model via AI Catalog</span><span class="badge badge-green">Approved</span></div>
+          <div class="diagram-row"><span class="dot-r"></span><span class="label">MCP server — no access controls</span><span class="badge badge-red">Blocked</span></div>
+          <div class="diagram-row"><span class="dot-g"></span><span class="label">Secure Gateway — audit trail active</span><span class="badge badge-green">Routed</span></div>
+          <div class="diagram-row"><span class="dot-b"></span><span class="label">CVE-2026-3847 — reachable in prod</span><span class="badge badge-blue">Auto-Fix</span></div>
+          <div class="diagram-row"><span class="dot-g"></span><span class="label">Artifact signed, SBOM attached</span><span class="badge badge-green">Shipped</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- STATS -->
+<section class="stats-strip" aria-label="Key statistics">
+<div class="w">
+  <div class="stats-row">
+    <div class="reveal"><div class="stat-val">10K</div><div class="stat-lbl">Lines of AI-generated code per second</div></div>
+    <div class="reveal"><div class="stat-val">0ms</div><div class="stat-lbl">Time to react to a poisoned model</div></div>
+    <div class="reveal"><div class="stat-val">100%</div><div class="stat-lbl">Of breaches target what you ship, not what you write</div></div>
+  </div>
+</div>
+</section>
+
+<!-- CHALLENGE -->
+<section class="challenge" id="challenge">
+<div class="w">
+  <div class="challenge-header">
+    <div class="stag">The Challenge</div>
+    <h2 class="sh">How AI Agents Reshape Every Stage of Delivery</h2>
+    <p class="ss">New categories of risk emerge at every stage of the agentic software supply chain.</p>
+  </div>
+  <div class="risk-cards">
+    <div class="risk-card reveal">
+      <div class="risk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <h4>Source</h4>
+      <div class="risk-label">Unvetted assets enter</div>
+      <p>Agents autonomously discover and approve packages and AI models from public sources.</p>
+    </div>
+    <div class="risk-card reveal">
+      <div class="risk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      <h4>Create</h4>
+      <div class="risk-label">Unreviewed code ships</div>
+      <p>AI generates, iterates, and tests code end to end — human authorship is optional.</p>
+    </div>
+    <div class="risk-card reveal">
+      <div class="risk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4l-9-5.19M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+      <h4>Package</h4>
+      <div class="risk-label">Unsigned packages deploy</div>
+      <p>Agents pull dependencies from public and private sources to auto-assemble artifacts.</p>
+    </div>
+    <div class="risk-card reveal">
+      <div class="risk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <h4>Deploy</h4>
+      <div class="risk-label">Ungoverned releases ship</div>
+      <p>Verified artifacts ship automatically — pipelines close without human approval.</p>
+    </div>
+    <div class="risk-card reveal">
+      <div class="risk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <h4>Run</h4>
+      <div class="risk-label">Threats persist undetected</div>
+      <p>Agents in production generate telemetry and call external tools continuously.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-strip">
+<div class="w">
+  <blockquote>&ldquo;You&rsquo;re governing a <em>machine factory</em> with human-speed checkpoints.&rdquo;</blockquote>
+</div>
+</section>
+
+<!-- RULES -->
+<section class="rules">
+<div class="w">
+  <div class="rules-header">
+    <div class="stag">The New Rules</div>
+    <h2 class="sh">Three Rules for the Agentic Security Era</h2>
+    <p class="ss">The old security playbook assumed humans in the loop. These rules don&rsquo;t.</p>
+  </div>
+  <div class="rules-grid">
+    <div class="rule-card reveal">
+      <div class="rule-num">01</div>
+      <h3>The binary is ground truth</h3>
+      <p>Every artifact your AI generates is a security concern — from creation to deployment. The binary, not source code, is the source of truth.</p>
+    </div>
+    <div class="rule-card reveal">
+      <div class="rule-num">02</div>
+      <h3>Trust must be computed</h3>
+      <p>Governance must be native — built where your artifacts live and enforced at the point of request. Dashboards can&rsquo;t keep up at machine speed.</p>
+    </div>
+    <div class="rule-card reveal">
+      <div class="rule-num">03</div>
+      <h3>Artifacts carry their own proof</h3>
+      <p>Every artifact must be self-describing — carrying its compliance record, provenance, and cryptographic attestations wherever it goes.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SOLUTION BANNER -->
+<section class="solution-banner" id="solution">
+<div class="w">
+  <div class="solution-inner">
+    <div>
+      <div class="stag">The JFrog Platform</div>
+      <h2 class="sh">The Trust Layer for Your Agentic Supply Chain</h2>
+      <p class="ss">Native, artifact-level governance enforced at machine speed — directly where your binaries live.</p>
+    </div>
+    <div class="sol-features">
+      <div class="sol-feature">
+        <div class="sol-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Native enforcement</h4><p>Security baked into the artifact layer, not bolted on via dashboards</p></div>
+      </div>
+      <div class="sol-feature">
+        <div class="sol-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Point-of-request governance</h4><p>Trust computed at the moment an artifact is requested — zero latency</p></div>
+      </div>
+      <div class="sol-feature">
+        <div class="sol-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Full supply chain coverage</h4><p>From model ingestion to production deployment — every stage governed</p></div>
+      </div>
+      <div class="sol-feature">
+        <div class="sol-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Cryptographic attestation</h4><p>Every artifact carries its provenance, compliance record, and proof of integrity</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+<div class="w">
+  <div class="portfolio-header">
+    <div class="stag">JFrog AI Portfolio</div>
+    <h2 class="sh">Build Your Agentic Enterprise with Confidence</h2>
+    <p class="ss" style="margin-bottom:48px">Eight products across three categories — governing, shipping, and securing your AI-powered supply chain.</p>
+  </div>
+
+  <div class="cat-section">
+    <div class="cat-label govern">Govern the Autonomous Supply Chain</div>
+    <div class="prod-grid">
+      <div class="prod-card reveal">
+        <div class="prod-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+        <h3>JFrog AI Catalog</h3>
+        <p>One control plane for every model, binary, and team. Gain full visibility into AI assets and eliminate Shadow AI.</p>
+        <a href="#" class="plink">Explore AI Catalog &rarr;</a>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>JFrog MCP Registry</h3>
+        <p>A supply chain firewall for AI agents. Block unverified MCP servers and route coding tools through a secure gateway.</p>
+        <a href="#" class="plink">Explore MCP Registry &rarr;</a>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+        <h3>Agent Skills Registry</h3>
+        <p>Govern agent skills as immutable, verified binaries. Prevent hallucinated or corrupted capabilities from entering your pipeline.</p>
+        <a href="#" class="plink">Learn More &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-section">
+    <div class="cat-label ship">Ship Faster, Safer</div>
+    <div class="prod-grid">
+      <div class="prod-card reveal">
+        <div class="prod-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 8 8 2-8 2-3 8-3-8-8-2 8-2 3-8z"/></svg></div>
+        <h3>Agentic Remediation</h3>
+        <p>Skip the 1,000-alert noise. Identify vulnerabilities actually reachable in production, then auto-generate remediation code.</p>
+        <a href="#" class="plink">See How It Works &rarr;</a>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>JFrog Fly</h3>
+        <p>Zero-configuration agentic delivery. AI handles deployment friction so your team ships faster without manual overhead.</p>
+        <a href="#" class="plink">Explore JFrog Fly &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-section">
+    <div class="cat-label secure">Secure Your AI Assets</div>
+    <div class="prod-grid">
+      <div class="prod-card reveal">
+        <div class="prod-icon purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg></div>
+        <h3>NVIDIA Integration</h3>
+        <p>Deploy optimized NVIDIA NIM and Nemotron models to production. Maximum performance, zero security compromise.</p>
+        <a href="#" class="plink">Learn More &rarr;</a>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-icon purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></div>
+        <h3>JFrog ML &amp; DataOps</h3>
+        <p>Store, version, train, and deploy AI models with full lineage and built-in telemetry. Your model lifecycle, under control.</p>
+        <a href="#" class="plink">Explore ML &amp; DataOps &rarr;</a>
+      </div>
+      <div class="prod-card reveal">
+        <div class="prod-icon purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>JFrog MLSecOps &amp; Curation</h3>
+        <p>Block poisoned and non-compliant models before they enter your environment. Native Hugging Face proxy with automatic scanning.</p>
+        <a href="#" class="plink">Explore Curation &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+<div class="w">
+  <div class="testimonials-header">
+    <div class="stag">Customer Stories</div>
+    <h2 class="sh">Trusted by Teams Securing the Agentic Supply Chain</h2>
+  </div>
+  <div class="tgrid">
+    <div class="tcard reveal">
+      <div class="qt">&ldquo;Before, delivering a new AI model took weeks. Now the research team can work independently and deliver while keeping engineering and product teams happy. We had 5 new models in production within 4 weeks.&rdquo;</div>
+      <div class="ta"><div class="av">IS</div><div><div class="nm">Idan Schwartz</div><div class="rl">Head of Research</div><div class="co">Spot by NetApp</div></div></div>
+    </div>
+    <div class="tcard reveal">
+      <div class="qt">&ldquo;JFrog gives us the confidence to adopt AI across our software supply chain while maintaining the security and compliance standards our enterprise customers demand.&rdquo;</div>
+      <div class="ta"><div class="av">VP</div><div><div class="nm">[Customer Name]</div><div class="rl">VP Platform Engineering</div><div class="co">[Enterprise Customer]</div></div></div>
+    </div>
+    <div class="tcard reveal">
+      <div class="qt">&ldquo;The ability to govern AI models with the same rigor we apply to every other artifact was a game-changer for our security posture.&rdquo;</div>
+      <div class="ta"><div class="av">CS</div><div><div class="nm">[Customer Name]</div><div class="rl">CISO</div><div class="co">[Enterprise Customer]</div></div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+<div class="w">
+  <div class="faq-header">
+    <div class="stag">FAQ</div>
+    <h2 class="sh">Frequently Asked Questions</h2>
+  </div>
+  <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <button class="faq-q" itemprop="name" aria-expanded="false">What is Shadow AI and how does JFrog address it?</button>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div class="faq-a-inner" itemprop="text">Shadow AI occurs when developers and teams adopt AI tools, models, and third-party ML assets without centralized visibility — faster than security teams can track. JFrog AI Catalog solves this with a single control plane that provides complete visibility across all AI assets in the organization.</div></div>
+    </div>
+    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <button class="faq-q" itemprop="name" aria-expanded="false">How does the JFrog Platform secure AI agent connections?</button>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div class="faq-a-inner" itemprop="text">JFrog MCP Registry with Secure Gateway acts as a supply chain firewall for AI agents, blocking connections to unverified MCP servers and routing coding agents through a secure gateway with granular access controls and a complete audit trail.</div></div>
+    </div>
+    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <button class="faq-q" itemprop="name" aria-expanded="false">How does agentic remediation reduce vulnerability alert noise?</button>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div class="faq-a-inner" itemprop="text">Agentic remediation uses contextual AI to identify which vulnerabilities are actually reachable and exploitable in your running application — then automatically generates the remediation code to fix them, cutting through the noise of thousands of undifferentiated CVE alerts.</div></div>
+    </div>
+    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <button class="faq-q" itemprop="name" aria-expanded="false">Why do ML models need supply chain governance?</button>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div class="faq-a-inner" itemprop="text">ML models are executable binaries that run code the moment they load into memory, yet most organizations treat them as untouchable data with no versioning, no lineage tracking, and no security controls — making them one of the most dangerous unguarded attack surfaces in the modern software supply chain.</div></div>
+    </div>
+    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <button class="faq-q" itemprop="name" aria-expanded="false">How does the JFrog Platform differ from ASPM dashboards?</button>
+      <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div class="faq-a-inner" itemprop="text">The JFrog Platform enforces security natively at the artifact level — directly where your binaries and models live — rather than relying on a decoupled ASPM dashboard overlay that creates a structural latency gap between your artifacts and your security evidence.</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+<div class="w">
+  <h2>The Next Decade Belongs to<br>Organizations That Compute Trust</h2>
+  <p>JFrog secures your speed. Start free or talk to our team about securing your agentic supply chain.</p>
+  <div class="ctas">
+    <a href="#" class="btn btn-g btn-lg">Start Free</a>
+    <a href="#" class="btn btn-o btn-lg">Talk to Sales</a>
+  </div>
+</div>
+</section>
+
+</div>
+
+<footer><div class="w"><p>&copy; 2026 JFrog Ltd. All rights reserved. &middot; <a href="#">Privacy</a> &middot; <a href="#">Legal</a> &middot; <a href="#">Security</a></p></div></footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('v')})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+    q.setAttribute('aria-expanded',!wasOpen);
+  });
+});
+</script>
+</body>
+</html>
