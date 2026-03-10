@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JFrog AI | Secure the Agentic Software Supply Chain</title>
+<meta name="description" content="The JFrog Platform secures your agentic software supply chain with native trust at the binary level. Govern AI models, agents, and artifacts automatically.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Open+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#40BE46;--green-dark:#2d8a32;--green-glow:rgba(64,190,70,0.3);
+  --bg:#061121;--bg-surface:#0C1D37;--bg-elevated:#113465;
+  --indigo:#1B2147;--indigo-mid:#2C345E;--indigo-light:#3C4891;
+  --blue:#1E83F2;--blue-glow:rgba(30,131,242,0.2);
+  --bg-card:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--glass-hover:rgba(255,255,255,0.06);
+  --text:#f1f5f9;--text-secondary:rgba(255,255,255,0.55);--text-dim:rgba(255,255,255,0.35);
+  --accent:#1E83F2;--accent-glow:rgba(30,131,242,0.2);
+  --purple:#4E67C2;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-heading:'Open Sans',sans-serif;
+  --max:1140px;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.6;overflow-x:hidden}
+.w{max-width:var(--max);margin:0 auto;padding:0 28px}
+.skip-link{position:absolute;top:-50px;left:0;background:var(--green);color:#fff;padding:10px 20px;z-index:200;font-size:14px;font-weight:600;text-decoration:none;border-radius:0 0 8px 0;transition:top .2s}
+.skip-link:focus{top:0}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0;background:#061121;border-bottom:1px solid rgba(255,255,255,0.06)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo img{height:28px;display:block}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-ctas{display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 24px;border-radius:10px;font-family:var(--font);font-size:14px;font-weight:600;text-decoration:none;transition:all .25s;cursor:pointer;border:none}
+.btn-g{background:var(--green);color:#fff;box-shadow:0 0 20px var(--green-glow)}
+.btn-g:hover{box-shadow:0 0 36px var(--green-glow);transform:translateY(-2px)}
+.btn-o{background:rgba(255,255,255,0.06);color:#fff;border:1.5px solid rgba(255,255,255,0.2)}
+.btn-o:hover{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.1)}
+.btn-lg{padding:14px 32px;font-size:15px;border-radius:12px}
+.btn-sm{padding:8px 20px;font-size:13px;border-radius:8px}
+
+.stag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:12px}
+h1,h2,h3{font-family:var(--font-heading)}
+.sh{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-bottom:14px}
+.ss{font-size:16px;color:var(--text-secondary);max-width:560px;line-height:1.7}
+
+.page-bg{background:
+  radial-gradient(ellipse 80% 50% at 50% 0%,rgba(17,52,101,0.15) 0%,transparent 50%),
+  linear-gradient(180deg,#061121 0%,#0C1D37 20%,#0e1a30 40%,#0C1D37 60%,#061121 80%,#061121 100%)}
+
+/* HERO — CENTERED WITH ANIMATED ORBIT */
+.hero{padding:180px 0 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:40px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(30,131,242,0.06) 0%,rgba(78,103,194,0.04) 30%,transparent 60%);pointer-events:none}
+.hero .w{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px 6px 8px;border-radius:100px;font-size:12px;font-weight:600;color:var(--green);margin-bottom:28px;background:rgba(64,190,70,0.06);border:1px solid rgba(64,190,70,0.15)}
+.hero-badge .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--green);position:relative}
+.hero-badge .pulse-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(64,190,70,0.3);animation:pingPulse 2s ease infinite}
+@keyframes pingPulse{0%{transform:scale(1);opacity:1}100%{transform:scale(2.5);opacity:0}}
+.hero h1{font-size:clamp(40px,6.5vw,76px);font-weight:900;line-height:1.04;letter-spacing:-.045em;max-width:800px;margin:0 auto 24px}
+.hero h1 .grad{background:linear-gradient(135deg,#1E83F2 0%,#40BE46 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(16px,2vw,19px);color:var(--text-secondary);max-width:540px;margin:0 auto 40px;line-height:1.7}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:80px}
+
+/* ANIMATED SDLC ORBIT */
+.orbit-wrap{position:relative;width:440px;height:240px;margin:0 auto}
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:16px 28px;border-radius:16px;background:rgba(64,190,70,0.08);border:1px solid rgba(64,190,70,0.2);font-size:14px;font-weight:700;color:var(--green);z-index:2;white-space:nowrap}
+.orbit-ring{position:absolute;inset:0;border:1px dashed rgba(255,255,255,0.06);border-radius:50%;animation:orbitSpin 40s linear infinite}
+@keyframes orbitSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.orbit-node{position:absolute;padding:8px 14px;border-radius:10px;font-size:11px;font-weight:600;background:var(--bg-card);border:1px solid var(--glass-border);color:var(--text-secondary);white-space:nowrap;transition:all .3s}
+.orbit-node:hover{border-color:rgba(30,131,242,0.3);color:var(--text);background:rgba(30,131,242,0.06)}
+.orbit-node:nth-child(1){top:0;left:50%;transform:translateX(-50%)}
+.orbit-node:nth-child(2){top:20%;right:0}
+.orbit-node:nth-child(3){bottom:20%;right:5%}
+.orbit-node:nth-child(4){bottom:0;left:50%;transform:translateX(-50%)}
+.orbit-node:nth-child(5){bottom:20%;left:5%}
+.orbit-node:nth-child(6){top:20%;left:0}
+
+/* STAT TICKER */
+.stat-ticker{padding:40px 0;overflow:hidden;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border)}
+.ticker-track{display:flex;gap:64px;animation:tickerScroll 20s linear infinite;width:max-content}
+.ticker-item{display:flex;align-items:center;gap:12px;white-space:nowrap;flex-shrink:0}
+.ticker-val{font-size:28px;font-weight:900;background:linear-gradient(135deg,var(--green),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ticker-lbl{font-size:13px;color:var(--text-secondary);font-weight:500}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* CHALLENGE — SPLIT LAYOUT */
+.challenge{padding:100px 0}
+.challenge-split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.challenge-left{position:sticky;top:120px}
+.challenge-right{display:flex;flex-direction:column;gap:16px}
+.ch-card{padding:24px;border-radius:16px;background:var(--bg-card);border:1px solid var(--glass-border);display:flex;gap:16px;align-items:flex-start;transition:all .3s;cursor:default}
+.ch-card:hover{background:var(--glass-hover);border-color:rgba(30,131,242,0.3)}
+.ch-num{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(30,131,242,0.08);color:var(--blue);font-size:13px;font-weight:800;flex-shrink:0}
+.ch-card h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.ch-card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+/* INTERSTITIAL */
+.interstitial{padding:80px 0;text-align:center}
+.interstitial blockquote{font-size:clamp(20px,3vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.3;max-width:680px;margin:0 auto}
+.interstitial .grad{background:linear-gradient(90deg,var(--danger),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* THREE PRINCIPLES — HORIZONTAL SCROLL CARDS */
+.principles{padding:100px 0}
+.principles-header{text-align:center;margin-bottom:48px}
+.principles-header .ss{margin:0 auto}
+.prin-track{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.prin-card{padding:40px 32px;border-radius:20px;position:relative;overflow:hidden;transition:all .3s}
+.prin-card::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(30,131,242,0.15),rgba(78,103,194,0.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.prin-card:hover{transform:translateY(-6px)}
+.prin-card .bg-fill{position:absolute;inset:0;background:var(--bg-surface);border-radius:20px;z-index:0}
+.prin-card .content{position:relative;z-index:1}
+.prin-num{font-size:52px;font-weight:900;background:linear-gradient(135deg,rgba(30,131,242,0.2),rgba(78,103,194,0.12));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:16px}
+.prin-card h3{font-size:19px;font-weight:700;margin-bottom:10px;letter-spacing:-.01em}
+.prin-card p{font-size:14px;color:var(--text-secondary);line-height:1.7}
+
+/* SOLUTION — LAYERED VISUAL */
+.solution{padding:100px 0;position:relative}
+.solution::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:1200px;height:100%;background:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(30,131,242,0.04),transparent);pointer-events:none}
+.solution-header{text-align:center;margin-bottom:48px;position:relative;z-index:1}
+.solution-header .ss{margin:0 auto}
+.sol-arch{position:relative;z-index:1;display:flex;flex-direction:column;gap:4px;max-width:800px;margin:0 auto}
+.sol-row{display:flex;gap:4px}
+.sol-cell{flex:1;padding:20px;border-radius:14px;background:var(--bg-card);border:1px solid var(--glass-border);text-align:center;transition:all .3s;cursor:default}
+.sol-cell:hover{background:var(--glass-hover);border-color:rgba(30,131,242,0.2);box-shadow:0 0 24px rgba(30,131,242,0.06)}
+.sol-cell h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.sol-cell .sub{font-size:11px;color:var(--text-dim);font-weight:500}
+.sol-full{padding:16px;border-radius:14px;background:linear-gradient(90deg,rgba(30,131,242,0.08),rgba(78,103,194,0.06));border:1px solid rgba(30,131,242,0.12);text-align:center}
+.sol-full h4{font-size:14px;font-weight:700;color:var(--green)}
+.sol-full .sub{font-size:12px;color:var(--text-secondary)}
+
+/* PRODUCT ACCORDIONS */
+.products{padding:100px 0}
+.products-header{text-align:center;margin-bottom:48px}
+.products-header .ss{margin:0 auto}
+.prod-sections{display:flex;flex-direction:column;gap:32px}
+.prod-section .sec-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.sec-dot{width:10px;height:10px;border-radius:50%}
+.sec-dot.green{background:var(--green)}.sec-dot.blue{background:var(--accent)}.sec-dot.purple{background:var(--purple)}
+.sec-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.sec-title.green{color:var(--green)}.sec-title.blue{color:var(--accent)}.sec-title.purple{color:var(--purple)}
+.prod-accordion{display:flex;flex-direction:column;gap:6px}
+.prod-acc-item{border-radius:14px;background:var(--bg-card);border:1px solid var(--glass-border);overflow:hidden;transition:border-color .2s}
+.prod-acc-item:hover,.prod-acc-item.open{border-color:rgba(255,255,255,0.12)}
+.prod-acc-q{width:100%;padding:18px 22px;background:none;border:none;color:var(--text);font-family:var(--font);font-size:15px;font-weight:600;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.prod-acc-q .prod-cta{font-size:12px;font-weight:600;color:var(--green);opacity:0;transition:opacity .2s;text-decoration:none;white-space:nowrap}
+.prod-acc-item.open .prod-acc-q .prod-cta{opacity:1}
+.prod-acc-q::after{content:'+';font-size:18px;color:var(--text-dim);transition:transform .3s;flex-shrink:0}
+.prod-acc-item.open .prod-acc-q::after{transform:rotate(45deg)}
+.prod-acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.prod-acc-item.open .prod-acc-body{max-height:200px}
+.prod-acc-inner{padding:0 22px 18px;font-size:14px;color:var(--text-secondary);line-height:1.7}
+
+/* TESTIMONIALS */
+.testimonials{padding:100px 0}
+.testimonials-header{text-align:center;margin-bottom:48px}
+.testimonials-header .ss{margin:0 auto}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.tcard{padding:28px;border-radius:16px;background:var(--bg-card);border:1px solid var(--glass-border)}
+.tcard .qt{font-size:14px;line-height:1.75;color:var(--text);font-style:italic;margin-bottom:18px}
+.tcard .ta{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--glass-border)}
+.tcard .av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,rgba(30,131,242,0.15),rgba(78,103,194,0.15));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--text-secondary)}
+.tcard .nm{font-weight:700;font-size:13px}.tcard .rl{font-size:12px;color:var(--text-secondary)}.tcard .co{font-size:12px;color:var(--green);font-weight:600}
+
+/* FAQ */
+.faq{padding:100px 0}
+.faq-header{text-align:center;margin-bottom:48px}
+.faq-header .ss{margin:0 auto}
+.faq-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:860px;margin:0 auto}
+.faq-card{padding:22px;border-radius:14px;background:var(--bg-card);border:1px solid var(--glass-border);transition:border-color .2s}
+.faq-card:hover{border-color:rgba(255,255,255,0.12)}
+.faq-card h4{font-size:14px;font-weight:700;margin-bottom:6px;cursor:pointer}
+.faq-card p{font-size:13px;color:var(--text-secondary);line-height:1.65;display:none}
+.faq-card.open p{display:block}
+.faq-card h4::before{content:'+ ';color:var(--green);font-weight:800}
+.faq-card.open h4::before{content:'- '}
+
+/* RESOURCES */
+.resources{padding:48px 0}
+.res-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.res-card{padding:20px;border-radius:14px;background:var(--bg-card);border:1px solid var(--glass-border);transition:all .2s}
+.res-card:hover{border-color:rgba(255,255,255,0.12);transform:translateY(-2px)}
+.res-card .tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:4px}
+.res-card h4{font-size:14px;font-weight:600;line-height:1.4;margin-bottom:4px}
+.res-card p{font-size:12px;color:var(--text-secondary);line-height:1.5}
+.res-card a{color:inherit;text-decoration:none}
+
+/* FINAL */
+.final{padding:120px 0 100px;text-align:center;position:relative}
+.final::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(circle,rgba(30,131,242,0.06) 0%,rgba(78,103,194,0.03) 40%,transparent 70%);pointer-events:none}
+.final h2{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.final .grad{background:linear-gradient(135deg,#1E83F2,#40BE46);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.final p{font-size:16px;color:var(--text-secondary);max-width:460px;margin:0 auto 40px;line-height:1.7}
+.final .ctas{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+footer{padding:36px 0;text-align:center;background:#061121;border-top:1px solid rgba(255,255,255,0.06)}
+footer p{font-size:12px;color:var(--text-dim)}
+footer a{color:var(--text-dim);text-decoration:none}
+footer a:hover{color:var(--text-secondary)}
+
+@media(max-width:900px){
+  .challenge-split{grid-template-columns:1fr}
+  .challenge-left{position:static}
+  .orbit-wrap{display:none}
+  .prin-track{grid-template-columns:1fr}
+  .sol-row{flex-direction:column}
+  .faq-cols{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links a{display:none}
+  .hero{padding:140px 0 40px}
+  .tgrid{grid-template-columns:1fr}
+  .res-row{grid-template-columns:1fr}
+}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.v{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav aria-label="Main navigation"><div class="w nav-inner">
+  <a href="https://jfrog.com" class="logo" aria-label="JFrog home"><img src="https://speedmedia2.jfrog.com/08612fe1-9391-4cf3-ac1a-6dd49c36b276/media.jfrog.com/wp-content/uploads/2024/08/08132607/jfrog-logo-2022.svg" alt="JFrog" height="28"></a>
+  <div class="nav-links">
+    <a href="https://jfrog.com/platform/">Platform</a>
+    <a href="https://jfrog.com/pricing/">Pricing</a>
+    <a href="https://jfrog.com/developers/">Developers</a>
+    <a href="#challenge">Challenge</a>
+    <a href="#products">Products</a>
+  </div>
+  <div class="nav-ctas">
+    <a href="https://jfrog.com/start-free/" class="btn btn-o btn-sm">Start Free</a>
+    <a href="#" class="btn btn-g btn-sm">Book a Demo</a>
+  </div>
+</div></nav>
+
+<div class="page-bg" id="main">
+
+<!-- HERO -->
+<section class="hero">
+<div class="w">
+  <div class="hero-badge"><span class="pulse-dot"></span> JFrog AI</div>
+  <h1>Secure the <span class="grad">Agentic</span> Software Supply Chain</h1>
+  <p>Secure and govern every artifact your developers and AI agents create, consume, and ship — with trust enforced automatically at the binary level.</p>
+  <div class="hero-ctas">
+    <a href="#" class="btn btn-g btn-lg">Take a Tour</a>
+    <a href="#" class="btn btn-o btn-lg">Book a Demo</a>
+  </div>
+
+  <div class="orbit-wrap" aria-hidden="true">
+    <div class="orbit-ring"></div>
+    <div class="orbit-center">JFrog Platform</div>
+    <div class="orbit-node">Source</div>
+    <div class="orbit-node">Create</div>
+    <div class="orbit-node">Package</div>
+    <div class="orbit-node">Deploy</div>
+    <div class="orbit-node">Run</div>
+    <div class="orbit-node">Govern</div>
+  </div>
+</div>
+</section>
+
+<!-- STAT TICKER -->
+<section class="stat-ticker" aria-label="Key statistics">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="ticker-val">10K</span><span class="ticker-lbl">Lines of AI-generated code per second</span></div>
+    <div class="ticker-item"><span class="ticker-val">0ms</span><span class="ticker-lbl">Time to react to a poisoned model</span></div>
+    <div class="ticker-item"><span class="ticker-val">100%</span><span class="ticker-lbl">Of breaches target what you ship</span></div>
+    <div class="ticker-item"><span class="ticker-val">10K</span><span class="ticker-lbl">Lines of AI-generated code per second</span></div>
+    <div class="ticker-item"><span class="ticker-val">0ms</span><span class="ticker-lbl">Time to react to a poisoned model</span></div>
+    <div class="ticker-item"><span class="ticker-val">100%</span><span class="ticker-lbl">Of breaches target what you ship</span></div>
+  </div>
+</section>
+
+<!-- CHALLENGE — SPLIT STICKY -->
+<section class="challenge" id="challenge">
+<div class="w">
+  <div class="challenge-split">
+    <div class="challenge-left">
+      <div class="stag">The Challenge</div>
+      <h2 class="sh">The Agentic Software Supply Chain Risks</h2>
+      <p class="ss">AI agents are redefining the software supply chain, introducing new categories of risk at a scale and speed the industry has never faced.</p>
+    </div>
+    <div class="challenge-right">
+      <div class="ch-card reveal">
+        <div class="ch-num">1</div>
+        <div><h4>Human oversight is impossible at agentic scale</h4><p>AI agents generate, test, and deploy faster than any team can review. Traditional governance cannot keep pace.</p></div>
+      </div>
+      <div class="ch-card reveal">
+        <div class="ch-num">2</div>
+        <div><h4>Your AI assets are your biggest vulnerability</h4><p>Risky models, MCP servers, and agent skills are pulled from public sources with the right to execute when they load.</p></div>
+      </div>
+      <div class="ch-card reveal">
+        <div class="ch-num">3</div>
+        <div><h4>Agents operate with no checks and balances</h4><p>Nothing verifies what enterprise tools and systems your agents connect to — no firewall, no access control, no audit trail.</p></div>
+      </div>
+      <div class="ch-card reveal">
+        <div class="ch-num">4</div>
+        <div><h4>The attack surface is growing and ever changing</h4><p>New models, tools, and dependencies are pulled dynamically at runtime — no fixed perimeter to protect.</p></div>
+      </div>
+      <div class="ch-card reveal">
+        <div class="ch-num">5</div>
+        <div><h4>Manual compliance can&rsquo;t keep up with velocity</h4><p>When software ships at AI speed, the evidence trail that regulators demand cannot be tracked manually.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- THREE PRINCIPLES -->
+<section class="principles" id="rules">
+<div class="w">
+  <div class="principles-header">
+    <div class="stag">The New Rules</div>
+    <h2 class="sh">Three Rules for the Agentic Security Era</h2>
+    <p class="ss">The old security playbook assumed humans in the loop. These rules don&rsquo;t.</p>
+  </div>
+  <div class="prin-track">
+    <div class="prin-card reveal"><div class="bg-fill"></div><div class="content"><div class="prin-num">01</div><h3>The binary is ground truth</h3><p>Every artifact your AI generates is a security concern — from creation to deployment. The binary, not source code, is the source of truth.</p></div></div>
+    <div class="prin-card reveal"><div class="bg-fill"></div><div class="content"><div class="prin-num">02</div><h3>Trust must be computed</h3><p>Governance must be native — built where your artifacts live and enforced at the point of request. Dashboards can&rsquo;t keep up at machine speed.</p></div></div>
+    <div class="prin-card reveal"><div class="bg-fill"></div><div class="content"><div class="prin-num">03</div><h3>Artifacts carry their own proof</h3><p>Every artifact must be self-describing — carrying its compliance record, provenance, and cryptographic attestations wherever it goes.</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- SOLUTION ARCHITECTURE -->
+<section class="solution" id="solution">
+<div class="w">
+  <div class="solution-header">
+    <div class="stag">The JFrog Platform</div>
+    <h2 class="sh">The Trust Layer for Your Agentic Supply Chain</h2>
+    <p class="ss">Native, artifact-level governance enforced at machine speed — directly where your binaries live.</p>
+  </div>
+  <div class="sol-arch reveal">
+    <div class="sol-row">
+      <div class="sol-cell"><h4>AI Catalog</h4><div class="sub">Visibility</div></div>
+      <div class="sol-cell"><h4>MCP Registry</h4><div class="sub">Agent Firewall</div></div>
+      <div class="sol-cell"><h4>Agent Skills</h4><div class="sub">Capability Gov.</div></div>
+    </div>
+    <div class="sol-row">
+      <div class="sol-cell"><h4>Agentic Remediation</h4><div class="sub">AI-Powered Fixes</div></div>
+      <div class="sol-cell"><h4>JFrog Fly</h4><div class="sub">Zero-Config Deploy</div></div>
+      <div class="sol-cell"><h4>MLSecOps</h4><div class="sub">Model Curation</div></div>
+    </div>
+    <div class="sol-row">
+      <div class="sol-cell"><h4>NVIDIA NIM</h4><div class="sub">Optimized Models</div></div>
+      <div class="sol-cell"><h4>ML &amp; DataOps</h4><div class="sub">Model Lifecycle</div></div>
+      <div class="sol-cell" style="background:transparent;border:none"></div>
+    </div>
+    <div class="sol-full"><h4>JFrog Platform — Artifact-Level Trust Engine</h4><div class="sub">Enforced at the point of request, at machine speed</div></div>
+  </div>
+</div>
+</section>
+
+<!-- PRODUCT ACCORDIONS -->
+<section class="products" id="products">
+<div class="w">
+  <div class="products-header">
+    <div class="stag">JFrog AI Portfolio</div>
+    <h2 class="sh">Build Your Agentic Enterprise with Confidence</h2>
+    <p class="ss">Eight products across three categories — explore each to learn how they secure your AI supply chain.</p>
+  </div>
+
+  <div class="prod-sections">
+    <div class="prod-section">
+      <div class="sec-header"><div class="sec-dot green"></div><span class="sec-title green">Govern the Autonomous Supply Chain</span></div>
+      <div class="prod-accordion">
+        <div class="prod-acc-item open">
+          <button class="prod-acc-q">JFrog AI Catalog <span class="prod-cta">Explore AI Catalog &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">One control plane for every model, binary, and team. Gain full visibility into AI assets and eliminate Shadow AI across your organization.</div></div>
+        </div>
+        <div class="prod-acc-item">
+          <button class="prod-acc-q">JFrog MCP Registry <span class="prod-cta">Explore MCP Registry &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">A supply chain firewall for AI agents. Block unverified MCP servers and route coding tools like Cursor and Claude Code through a secure gateway with granular access controls.</div></div>
+        </div>
+        <div class="prod-acc-item">
+          <button class="prod-acc-q">Agent Skills Registry <span class="prod-cta">Learn More &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">Govern agent skills as immutable, cryptographically verified binaries. Prevent hallucinated or corrupted capabilities from entering your CI/CD pipeline.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-section">
+      <div class="sec-header"><div class="sec-dot blue"></div><span class="sec-title blue">Ship Faster, Safer</span></div>
+      <div class="prod-accordion">
+        <div class="prod-acc-item">
+          <button class="prod-acc-q">Agentic Remediation <span class="prod-cta">See How It Works &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">Skip the 1,000-alert noise. Identify vulnerabilities actually reachable in your running application, then auto-generate remediation code to fix them.</div></div>
+        </div>
+        <div class="prod-acc-item">
+          <button class="prod-acc-q">JFrog Fly <span class="prod-cta">Explore JFrog Fly &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">Zero-configuration agentic delivery. AI handles the deployment friction so your team ships faster without manual overhead.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-section">
+      <div class="sec-header"><div class="sec-dot purple"></div><span class="sec-title purple">Secure Your AI Assets</span></div>
+      <div class="prod-accordion">
+        <div class="prod-acc-item">
+          <button class="prod-acc-q">NVIDIA Integration <span class="prod-cta">Learn More &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">Deploy optimized NVIDIA NIM and Nemotron models to production from the JFrog Platform. Maximum performance, zero security compromise.</div></div>
+        </div>
+        <div class="prod-acc-item">
+          <button class="prod-acc-q">JFrog ML &amp; DataOps <span class="prod-cta">Explore ML &amp; DataOps &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">Store, version, train, and deploy AI models with full lineage and built-in telemetry. Your model lifecycle, under control.</div></div>
+        </div>
+        <div class="prod-acc-item">
+          <button class="prod-acc-q">JFrog MLSecOps &amp; Curation <span class="prod-cta">Explore Curation &rarr;</span></button>
+          <div class="prod-acc-body"><div class="prod-acc-inner">Block poisoned and non-compliant models before they enter your environment. Native Hugging Face proxy with automatic scanning for weaponized payloads and license violations.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+<div class="w">
+  <div class="testimonials-header">
+    <div class="stag">Customer Stories</div>
+    <h2 class="sh">Trusted by Teams Securing the Agentic Supply Chain</h2>
+  </div>
+  <div class="tgrid">
+    <div class="tcard reveal">
+      <div class="qt">&ldquo;Before, delivering a new AI model took weeks. Now the research team can work independently and deliver while keeping engineering and product teams happy. We had 5 new models in production within 4 weeks.&rdquo;</div>
+      <div class="ta"><div class="av">IS</div><div><div class="nm">Idan Schwartz</div><div class="rl">Head of Research</div><div class="co">Spot by NetApp</div></div></div>
+    </div>
+    <div class="tcard reveal">
+      <div class="qt">&ldquo;JFrog gives us the confidence to adopt AI across our supply chain while maintaining the security and compliance standards our enterprise customers demand.&rdquo;</div>
+      <div class="ta"><div class="av">VP</div><div><div class="nm">[Customer Name]</div><div class="rl">VP Platform Engineering</div><div class="co">[Enterprise Customer]</div></div></div>
+    </div>
+    <div class="tcard reveal">
+      <div class="qt">&ldquo;Governing AI models with the same rigor we apply to every other artifact was a game-changer for our security posture.&rdquo;</div>
+      <div class="ta"><div class="av">CS</div><div><div class="nm">[Customer Name]</div><div class="rl">CISO</div><div class="co">[Enterprise Customer]</div></div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+<div class="w">
+  <div class="faq-header">
+    <div class="stag">FAQ</div>
+    <h2 class="sh">Frequently Asked Questions</h2>
+  </div>
+  <div class="faq-cols" itemscope itemtype="https://schema.org/FAQPage">
+    <div class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h4 itemprop="name">What is Shadow AI?</h4>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">Shadow AI occurs when developers adopt AI tools and models without centralized visibility. JFrog AI Catalog provides a single control plane for complete visibility across all AI assets.</span></p>
+    </div>
+    <div class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h4 itemprop="name">How does JFrog secure agent connections?</h4>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">JFrog MCP Registry acts as a supply chain firewall, blocking unverified MCP servers and routing coding agents through a secure gateway with granular access controls.</span></p>
+    </div>
+    <div class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h4 itemprop="name">How does agentic remediation work?</h4>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">It uses contextual AI to identify which vulnerabilities are actually reachable in your running application, then auto-generates remediation code to fix them.</span></p>
+    </div>
+    <div class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h4 itemprop="name">Why do ML models need governance?</h4>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">ML models are executable binaries that run code when loaded. Most organizations treat them as data with no security controls — making them a dangerous attack surface.</span></p>
+    </div>
+    <div class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h4 itemprop="name">How is JFrog different from ASPM tools?</h4>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">JFrog enforces security natively at the artifact level rather than via decoupled dashboard overlays that create latency between artifacts and security evidence.</span></p>
+    </div>
+    <div class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <h4 itemprop="name">What is an Agent Skills Registry?</h4>
+      <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">It governs agent capabilities as immutable, cryptographically verified binaries — preventing hallucinated or corrupted skills from entering your pipeline.</span></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- RESOURCES -->
+<section class="resources">
+<div class="w">
+  <div class="res-row">
+    <div class="res-card"><a href="#"><div class="tag">Whitepaper</div><h4>Securing the Agentic Software Supply Chain</h4><p>Build trust infrastructure for autonomous AI development.</p></a></div>
+    <div class="res-card"><a href="#"><div class="tag">Blog</div><h4>Agentic Remediation: AI-Assisted Security</h4><p>How JFrog identifies reachable vulnerabilities and auto-generates fixes.</p></a></div>
+    <div class="res-card"><a href="#"><div class="tag">Demo</div><h4>JFrog AI: From Model to Production</h4><p>See AI governance in action with AI Catalog and MCP Registry.</p></a></div>
+  </div>
+</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+<div class="w">
+  <h2>The Next Decade Belongs to<br>Organizations That <span class="grad">Compute Trust</span></h2>
+  <p>JFrog secures your speed. Start free or talk to our team about your agentic supply chain.</p>
+  <div class="ctas">
+    <a href="#" class="btn btn-g btn-lg">Start Free</a>
+    <a href="#" class="btn btn-o btn-lg">Talk to Sales</a>
+  </div>
+</div>
+</section>
+
+</div>
+
+<footer><div class="w"><p>&copy; 2026 JFrog Ltd. All rights reserved. &middot; <a href="#">Privacy</a> &middot; <a href="#">Legal</a> &middot; <a href="#">Security</a></p></div></footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('v')})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+document.querySelectorAll('.prod-acc-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const section=item.closest('.prod-accordion');
+    const wasOpen=item.classList.contains('open');
+    section.querySelectorAll('.prod-acc-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+
+document.querySelectorAll('.faq-card h4').forEach(h=>{
+  h.addEventListener('click',()=>{
+    h.parentElement.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
